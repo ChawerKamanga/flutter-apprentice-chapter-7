@@ -45,7 +45,6 @@ class AppRouter extends RouterDelegate
           OnboardingScreen.page(),
         if (appStateManager.isOnboardingComplete)
           Home.page(appStateManager.getSelectedTab),
-
         if (groceryManager.isCreatingNewItem)
           GroceryItemScreen.page(
             onCreate: (item) {
@@ -53,7 +52,6 @@ class AppRouter extends RouterDelegate
             },
             onUpdate: (item, index) {},
           ),
-
         if (groceryManager.selectedIndex != -1)
           GroceryItemScreen.page(
               item: groceryManager.selectedGroceryItem,
@@ -62,9 +60,8 @@ class AppRouter extends RouterDelegate
                 groceryManager.updateItem(item, index);
               },
               onCreate: (_) {}),
-
-        // TODO: Add Profile Screen
-        // TODO: Add WebView Screen
+        if (profileManager.didSelectUser)
+          ProfileScreen.page(profileManager.getUser),
       ],
     );
   }
@@ -77,10 +74,23 @@ class AppRouter extends RouterDelegate
     if (route.settings.name == FooderlichPages.onboardingPath) {
       appStateManager.logout();
     }
-    // TODO: Handle state when user closes grocery item screen
-    // TODO: Handle state when user closes profile screen
-    // TODO: Handle state when user closes WebView screen
-    // 6
+
+    if (route.settings.name == FooderlichPages.groceryItemDetails) {
+      groceryManager.groceryItemTapped(-1);
+    }
+
+    if (route.settings.name == FooderlichPages.profilePath) {
+      profileManager.tapOnProfile(false);
+    }
+
+    if (route.settings.name == FooderlichPages.profilePath) {
+      profileManager.tapOnProfile(false);
+    }
+
+    if (route.settings.name == FooderlichPages.raywenderlich) {
+      profileManager.tapOnRaywenderlich(false);
+    }
+
     return true;
   }
 
